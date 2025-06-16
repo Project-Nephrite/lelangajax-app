@@ -13,7 +13,7 @@ export default function Page({
   children,
   maxWidth = "lg",
   paddingY = { xs: 2, sm: 4, md: 6 },
-  backgroundColor = "background.default",
+  backgroundColor = "none",
 }: PageProps) {
   const theme = useTheme();
   const upSm = useMediaQuery(theme.breakpoints.up("sm"));
@@ -29,14 +29,28 @@ export default function Page({
           : (paddingY.xs ?? 0);
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        backgroundColor,
-        py: resolvedPaddingY,
-      }}
-    >
-      <Container maxWidth={maxWidth}>{children}</Container>
-    </Box>
+    <>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          backgroundColor,
+          py: resolvedPaddingY,
+        }}
+      >
+        <Container maxWidth={maxWidth}>{children}</Container>
+      </Box>
+      <Box
+        component="footer"
+        sx={{
+          bgcolor: "grey.200",
+          py: 3,
+          mt: "auto",
+          textAlign: "center",
+          typography: "body2",
+        }}
+      >
+        &copy; {new Date().getFullYear()} LelangAjax. All rights reserved.
+      </Box>
+    </>
   );
 }

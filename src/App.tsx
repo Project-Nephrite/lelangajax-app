@@ -1,10 +1,15 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { Routes, Route, BrowserRouter } from "react-router";
 import "./App.css";
+import Home from "./pages/home/home";
 
 function App() {
-  return <></>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
