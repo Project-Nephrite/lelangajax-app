@@ -1,4 +1,3 @@
-// pages/LoginPage.tsx
 import banner from "/login_banner.png";
 import logo from "/brand_2.png";
 import { useEffect, useState } from "react";

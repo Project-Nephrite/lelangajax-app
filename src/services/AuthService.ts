@@ -29,7 +29,8 @@ export const AuthService = {
         else throw error;
       });
   },
-  logout: () => {
+  logout: async () => {
+    await API.post("/logout");
     sessionStorage.removeItem("auth_token");
   },
   getCurrentUser: async () => {

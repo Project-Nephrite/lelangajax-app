@@ -6,6 +6,7 @@ import { Navigate } from "react-router";
 import LoginPage from "./pages/auth/LoginPage";
 import { ThemeProvider } from "@mui/material";
 import theme from "./modules/theme";
+import RegisterPage from "./pages/auth/RegisterPage";
 
 function ProtectedRoute({ children }: { children: Element }) {
   const { isAuthenticated } = useAuth();
@@ -15,15 +16,15 @@ function ProtectedRoute({ children }: { children: Element }) {
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      {" "}
-      <AuthProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
+            <Route path="/register" element={<RegisterPage />}></Route>
           </Routes>
-        </BrowserRouter>
-      </AuthProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

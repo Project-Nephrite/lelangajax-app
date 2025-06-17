@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthService } from "../services/AuthService";
 import type { IUserResource } from "../interfaces/IUser";
+import { useNavigate } from "react-router";
 
 type AuthContextType = {
   user: IUserResource;
@@ -14,6 +15,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (AuthService.isAuthenticated()) {
@@ -37,6 +39,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     AuthService.logout();
     setUser(null);
+    navigate("/");
+    window.location.reload();
   };
 
   return (

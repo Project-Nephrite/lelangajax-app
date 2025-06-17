@@ -17,6 +17,7 @@ import type { IUserResource } from "../../interfaces/IUser";
 import type React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface Props {
   user: IUserResource;
@@ -24,6 +25,7 @@ interface Props {
 export default function UserTab({ user }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
@@ -108,9 +110,11 @@ export default function UserTab({ user }: Props) {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <Avatar src={user?.profile_url}></Avatar>
         </IconButton>
-        <p>Profile</p>
+        <p>
+          {user?.first_name} {user?.last_name}
+        </p>
       </MenuItem>
     </Menu>
   );
@@ -145,6 +149,7 @@ export default function UserTab({ user }: Props) {
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={() => logout()}>Log Out</MenuItem>
     </Menu>
   );
   return (
@@ -155,13 +160,13 @@ export default function UserTab({ user }: Props) {
             <IconButton
               size="large"
               edge="end"
-              aria-label="account of current user"
+              aria-label={user?.username}
               aria-controls={menuId}
               aria-haspopup="true"
               onMouseOver={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar src={user?.profile_url} />
             </IconButton>
           </Box>
 
