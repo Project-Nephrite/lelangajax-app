@@ -25,7 +25,13 @@ export function useForm<T extends Record<string, any>>(options: {
       setValues((prev) => ({
         ...prev,
         [name]:
-          type === "checkbox" ? checked : type === "file" ? files[0] : value,
+          type === "checkbox"
+            ? checked
+            : type === "file"
+              ? (e.target as HTMLInputElement).multiple
+                ? Array.from(files ?? [])
+                : (files?.[0] ?? null)
+              : value,
       }));
     },
 

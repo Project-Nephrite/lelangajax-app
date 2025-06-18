@@ -8,6 +8,7 @@ import {
   IconButton,
   MenuItem,
 } from "@mui/material";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
@@ -147,7 +148,12 @@ export default function UserTab({ user }: Props) {
           {user?.first_name} {user?.last_name}
         </p>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+
+      <MenuItem onClick={() => navigate("/myListing")} sx={{ gap: 4 }}>
+        <StorefrontIcon />
+        <p>Jualan Saya</p>
+      </MenuItem>
+
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={() => logout()}>Log Out</MenuItem>
     </Menu>

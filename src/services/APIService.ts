@@ -1,8 +1,8 @@
 // services/BaseService.ts
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-export class BaseService {
-  protected http: AxiosInstance;
+export class APIService {
+  public http: AxiosInstance;
 
   constructor(baseURL: string, config?: AxiosRequestConfig) {
     this.http = axios.create({
@@ -11,19 +11,26 @@ export class BaseService {
         Accept: "*/*",
         "Access-Control-Allow-Origin": "*",
         "Cross-Origin-Resource-Policy": "cross-origin",
+
+        "Content-Type": "multipart/form-data",
       },
       ...config,
     });
+    this.http.interceptors.request.use((config) => {
+      const token = sessionStorage.getItem("auth_token");
+      if (token) config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    });
   }
 
-  protected get<T>(
+  public get<T>(
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
     return this.http.get<T>(url, config);
   }
 
-  protected post<T>(
+  public post<T>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
@@ -31,7 +38,7 @@ export class BaseService {
     return this.http.post<T>(url, data, config);
   }
 
-  protected put<T>(
+  public put<T>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
@@ -39,7 +46,7 @@ export class BaseService {
     return this.http.put<T>(url, data, config);
   }
 
-  protected patch<T>(
+  public patch<T>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
@@ -47,7 +54,7 @@ export class BaseService {
     return this.http.patch<T>(url, data, config);
   }
 
-  protected delete<T>(
+  public delete<T>(
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {

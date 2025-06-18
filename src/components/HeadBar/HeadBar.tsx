@@ -58,8 +58,16 @@ export default function HeadBar() {
   const desktop = useMediaQuery("(min-width: 767px)");
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="transparent">
+    <Box sx={{ flexGrow: 1, pt: 8 }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          top: 0,
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backgroundColor: "background.default",
+          color: "primary.main",
+        }}
+      >
         <Toolbar
           sx={{
             display: "flex",
@@ -76,6 +84,7 @@ export default function HeadBar() {
             <Box
               component="img"
               src={Logo}
+              onClick={() => navigate("/")}
               sx={{
                 objectFit: "cover",
                 width: "8rem",

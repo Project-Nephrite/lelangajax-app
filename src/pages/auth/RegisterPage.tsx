@@ -66,6 +66,7 @@ export default function RegisterPage() {
         return errs;
       },
       onSubmit: async (values) => {
+        console.log(values);
         try {
           await registerService(values);
           setSuccess("You have created new account");

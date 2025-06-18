@@ -7,8 +7,13 @@ import LoginPage from "./pages/auth/LoginPage";
 import { ThemeProvider } from "@mui/material";
 import theme from "./modules/theme";
 import RegisterPage from "./pages/auth/RegisterPage";
+import MyListingPage from "./pages/selling/MyListingPage";
+import type { ReactNode } from "react";
+import MyListing_Create from "./pages/selling/MyListing_Create";
+import MyListing_List from "./pages/selling/MyListing_List";
+import ListingDetailPage from "./pages/listing/ListingDetailPage";
 
-function ProtectedRoute({ children }: { children: Element }) {
+function ProtectedRoute({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? children : <Navigate to="/login" />;
 }
@@ -22,6 +27,18 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/register" element={<RegisterPage />}></Route>
+            <Route
+              path="/myListing"
+              element={
+                <ProtectedRoute>
+                  <MyListingPage />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<MyListing_List />} />
+              <Route path="create" element={<MyListing_Create />} />
+            </Route>
+            <Route path="/listing/:id" element={<ListingDetailPage />}></Route>
           </Routes>
         </AuthProvider>
       </BrowserRouter>

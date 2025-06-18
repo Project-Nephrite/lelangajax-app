@@ -1,13 +1,12 @@
-import { BaseService } from "./BaseService";
+import { APIService } from "./APIService";
 import type { Category } from "../interfaces/ICategory";
 
-class CategoryService extends BaseService {
-  constructor() {
-    super(import.meta.env.VITE_API_URL + "/category");
-  }
+export default class CategoryService {
+  static api = new APIService(import.meta.env.VITE_API_URL + "/category");
 
-  public async fetch() {
-    return await this.get<Category[]>("/")
+  public static async fetch() {
+    return await this.api
+      .get<Category[]>("/")
       .then((response) => {
         return response.data;
       })
@@ -16,5 +15,3 @@ class CategoryService extends BaseService {
       });
   }
 }
-
-export default new CategoryService();
