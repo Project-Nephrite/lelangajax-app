@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import type { IListingResource } from "../../interfaces/IListing";
 import ListingService from "../../services/ListingService";
 import Page from "../layout/Page";
@@ -12,6 +12,10 @@ import {
   Container,
   Divider,
   Grid,
+  ListItem,
+  List,
+  ListItemAvatar,
+  ListItemText,
   Paper,
   Typography,
   useMediaQuery,
@@ -21,13 +25,17 @@ import UserService from "../../services/UserService";
 import Carousel from "../../components/Carousel";
 import { formatPrice } from "../../utilities/formatPrice";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import useFetchBiddings from "../../hooks/useFetchBiddings";
+import PriceCheckIcon from "@mui/icons-material/PriceCheck";
 
 export default function ListingDetailPage() {
   const param = useParams();
   const desktop = useMediaQuery("(min-width:767px)");
+  const navigate = useNavigate();
 
   const [data, setData] = useState<IListingResource | null>(null);
   const [seller, setSeller] = useState<IUserResource | null>(null);
+  const biddings = useFetchBiddings(data?.id!);
 
   useEffect(() => {
     (async () => {
@@ -40,6 +48,8 @@ export default function ListingDetailPage() {
       setSeller(await UserService.detail(data.seller_id!));
     })();
   }, [data]);
+
+  const handleBid = () => navigate(`/bid/${data?.id}`);
 
   return (
     <>
@@ -103,11 +113,15 @@ export default function ListingDetailPage() {
             <Divider />
             <Box display="flex" flexWrap="wrap" flexDirection="row" gap={2}>
               <Chip label="Barang Langka" />
-              <Chip label="3 Bids" />
+              <Chip
+                label={
+                  biddings.length > 0 ? `${biddings.length} Bids` : "Baru live"
+                }
+              />
             </Box>
             <Divider />
             <Box display="flex" flexDirection="column" gap={2}>
-              <Button variant="contained" size="large">
+              <Button variant="contained" size="large" onClick={handleBid}>
                 Bid Sekarang
               </Button>
               <Button variant="outlined" size="large">
@@ -126,7 +140,29 @@ export default function ListingDetailPage() {
             <Box>
               <Typography variant="h4">Daftar lelang</Typography>
             </Box>
-            <Typography>Belom ada lelang untuk list ini</Typography>
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                bgcolor: "background.paper",
+                overflow: "scroll",
+                maxHeight: "12rem",
+              }}
+            >
+              {biddings.map((bid) => (
+                <ListItem key={bid.index}>
+                  <ListItemAvatar>
+                    <Avatar sx={{ bgcolor: "primary.main" }}>
+                      <PriceCheckIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={formatPrice(bid.value)}
+                    secondary={bid.timestamp}
+                  />
+                </ListItem>
+              ))}
+            </List>
           </Grid>
         </Grid>
       </Page>

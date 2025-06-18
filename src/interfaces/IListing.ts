@@ -8,6 +8,7 @@ export interface IListingCreate {
 }
 
 export interface IListingResource {
+  id: string;
   name: string;
   description: string;
   value_base: number;

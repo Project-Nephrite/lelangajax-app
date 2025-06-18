@@ -12,6 +12,7 @@ import type { ReactNode } from "react";
 import MyListing_Create from "./pages/selling/MyListing_Create";
 import MyListing_List from "./pages/selling/MyListing_List";
 import ListingDetailPage from "./pages/listing/ListingDetailPage";
+import BiddingPage from "./pages/bids/BiddingPage";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -39,6 +40,7 @@ function App() {
               <Route path="create" element={<MyListing_Create />} />
             </Route>
             <Route path="/listing/:id" element={<ListingDetailPage />}></Route>
+            <Route path="/bid/:id" element={<BiddingPage />}></Route>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
